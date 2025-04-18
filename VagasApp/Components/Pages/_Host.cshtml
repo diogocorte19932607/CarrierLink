@@ -1,0 +1,23 @@
+﻿@page "/"
+@namespace VagasApp.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>VagasApp</title>
+    <base href="~/" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+</head>
+<body>
+    <app>
+        <component type="typeof(AppContext)" render-mode="ServerPrerendered" />
+    </app>
+
+    <script src="_framework/blazor.server.js"></script>
+</body>
+</html>

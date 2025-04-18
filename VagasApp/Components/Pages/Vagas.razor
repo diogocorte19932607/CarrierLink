@@ -1,0 +1,95 @@
+﻿@page "/vagas"
+@using VagasApp.Services
+@using VagasApp.Models
+@inject VagaService VagaService
+
+<h3 class="mb-4">Vagas Encontradas</h3>
+
+@if (vagas == null)
+{
+	<p><em>Carregando vagas...</em></p>
+}
+else if (!vagas.Any())
+{
+	<p><strong>Nenhuma vaga encontrada.</strong></p>
+}
+else
+{
+	<table class="table table-bordered table-striped table-hover align-middle text-center">
+		<thead class="table-dark">
+			<tr>
+				<th>Título</th>
+				<th>Empresa</th>
+				<th>Local</th>
+				<th>Modelo</th>
+				<th>Simplificada</th>
+				<th>Data</th>
+				<th>Aplicada</th>
+				<th>Ação</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var vaga in vagas)
+			{
+				<tr>
+					<td>@vaga.Titulo</td>
+					<td>@vaga.Empresa</td>
+					<td>@vaga.Local</td>
+					<td>@vaga.Modelo</td>
+					<td>
+						@if (vaga.CandidaturaSimplificada == "Sim")
+						{
+							<span class="badge bg-success">Sim</span>
+						}
+						else
+						{
+							<span class="badge bg-secondary">Não</span>
+						}
+					</td>
+					<td>@vaga.Data.ToString("yyyy-MM-dd")</td>
+
+					<td>
+
+						@if (!vaga.Aplicada)
+						{
+							<button class="btn btn-sm btn-outline-success" @onclick="@(() => MarcarComoAplicada(vaga))">
+								Marcar como aplicada
+							</button>
+						}
+						else
+						{
+							<span class="badge bg-success">Aplicada</span>
+						}
+
+					</td>
+
+					<td>
+						<a href="@vaga.Link" target="_blank" class="btn btn-sm btn-outline-primary">Candidatar</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+
+
+
+
+}
+
+
+@code {
+	private List<Vaga>? vagas;
+
+	protected override async Task OnInitializedAsync()
+	{
+		vagas = await VagaService.ObterVagasAsync();
+	}
+
+	private async Task MarcarComoAplicada(Vaga vaga)
+	{
+		vaga.Aplicada = true;
+		await VagaService.AtualizarVagaAsync(vaga);
+	}
+
+}
+
