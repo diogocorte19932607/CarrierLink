@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VagasApp", "VagasApp\VagasA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Realocations.Api", "Realocations.Api\Realocations.Api.csproj", "{9CB29752-A976-B553-B02D-8A4460052C77}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceSendMessageWhatsapp", "ServiceSendMessageWhatsapp\ServiceSendMessageWhatsapp.csproj", "{D918C5EE-937A-459F-A558-A89065B0FBA0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{9CB29752-A976-B553-B02D-8A4460052C77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CB29752-A976-B553-B02D-8A4460052C77}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9CB29752-A976-B553-B02D-8A4460052C77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D918C5EE-937A-459F-A558-A89065B0FBA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D918C5EE-937A-459F-A558-A89065B0FBA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D918C5EE-937A-459F-A558-A89065B0FBA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D918C5EE-937A-459F-A558-A89065B0FBA0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
