@@ -15,7 +15,7 @@ namespace VagasApp.Services
 
         public async Task<List<Vaga>> ObterVagasAsync()
         {
-            return await _context.Vagas.ToListAsync();
+            return await _context.Vagas.Where(x => x.Aplicada).ToListAsync();
         }
 
         public async Task AtualizarVagaAsync(Vaga vaga)

@@ -14,7 +14,7 @@ builder.Services.AddServerSideBlazor();
 
 
 // ?? Connection String
-var connectionString = "Server=DELL19932607\\SQLEXPRESS;Database=VagasDB;Trusted_Connection=True;TrustServerCertificate=True;";
+var connectionString = "Server=DELL19932607\\SQLEXPRESS;Database=VagasDB1;Trusted_Connection=True;TrustServerCertificate=True;";
 builder.Services.AddDbContext<VagaContext>(options =>
     options.UseSqlServer(connectionString));
 
