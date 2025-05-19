@@ -13,10 +13,20 @@ namespace VagasApp.Services
             _context = context;
         }
 
+        //public async Task<List<Vaga>> ObterVagasAsync()
+        //{
+        //    return await _context.Vagas.ToListAsync();
+        //    //return await _context.Vagas.Where(x => x.Aplicada).ToListAsync();
+        //}
+
         public async Task<List<Vaga>> ObterVagasAsync()
         {
-            return await _context.Vagas.Where(x => x.Aplicada).ToListAsync();
+            return await _context.Vagas
+                .GroupBy(v => new { v.Titulo, v.Empresa, v.Local })
+                .Select(g => g.First())
+                .ToListAsync();
         }
+
 
         public async Task AtualizarVagaAsync(Vaga vaga)
         {

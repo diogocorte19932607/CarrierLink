@@ -4,66 +4,61 @@ using System.Linq;
 
 namespace Problema
 {
-
     public static class ServicoDeVeiculos
     {
         private static List<Veiculo> Veiculos { get; set; } = new List<Veiculo>();
+
         public static void InsereVeiculo(Veiculo veiculo)
         {
-            /*********************************
-            **  Escreva seu código aqui...
-            **  TODO: Implementar
-            *********************************/
+            // Verifica se já existe veículo com mesmo código
+            if (Veiculos.Any(v => v.Codigo == veiculo.Codigo))
+                throw new CodigoJaCadastradoException();
+
+            // Verifica se já existe veículo com mesma placa e tipo
+            if (Veiculos.Any(v => v.Placa == veiculo.Placa && v.Tipo == veiculo.Tipo))
+                throw new CadastroIrregularDePlacaException();
+
+            Veiculos.Add(veiculo);
         }
 
         public static List<Veiculo> ObtenhaListaDeVeiculos()
         {
-            /*********************************
-            **  Escreva seu código aqui...
-            **  TODO: Implementar
-            *********************************/
             return Veiculos;
         }
 
         public static List<Veiculo> ObtenhaCarros()
         {
-            /*********************************
-            **  Escreva seu código aqui...
-            **  TODO: Implementar
-            *********************************/
-            return Veiculos;
+            return Veiculos
+                .Where(v => v.Tipo == EnumTipo.CARRO)
+                .OrderBy(v => v.Placa)
+                .ToList();
         }
 
         public static List<Veiculo> ObtenhaCaminhoes()
         {
-            /*********************************
-            **  Escreva seu código aqui...
-            **  TODO: Implementar
-            *********************************/
-            return Veiculos;
+            return Veiculos
+                .Where(v => v.Tipo == EnumTipo.CAMINHAO)
+                .OrderBy(v => v.Placa)
+                .ToList();
         }
     }
+
     public class ControleVeicular
     {
         public static void Resolver(Veiculo[] entradas)
         {
-            /************************************************************************
-            **  IMPLEMENTE E USE O ServicoDeVeiculos para gerar a saída esperada.
-            **************************************************************************/
+            foreach (var veiculo in entradas)
+            {
+                ServicoDeVeiculos.InsereVeiculo(veiculo);
+            }
 
-            /************************************************************************
-            **  Escreva seu código aqui...
-            **  TODO: Implementar
-            **************************************************************************/
             Console.Error.WriteLine("Debug Message, use Console.Error.WriteLine()");
-
 
             Console.Error.WriteLine("CARROS:{0},{1};CAMINHOES:{2},{3};",
                 ServicoDeVeiculos.ObtenhaCarros().Count, string.Join(",", ServicoDeVeiculos.ObtenhaCarros().Select(s => s.Placa)),
                 ServicoDeVeiculos.ObtenhaCaminhoes().Count, string.Join(",", ServicoDeVeiculos.ObtenhaCaminhoes().Select(s => s.Placa))
-                );
+            );
         }
-
 
         /********************************************
         **  NÃO ALTERE O CÓDIGO ABAIXO DESS LINHA ***
@@ -93,7 +88,7 @@ namespace Problema
                 Console.WriteLine("CARROS:{0},{1};CAMINHOES:{2},{3};",
                     ServicoDeVeiculos.ObtenhaCarros().Count, string.Join(",", ServicoDeVeiculos.ObtenhaCarros().Select(s => s.Placa)),
                     ServicoDeVeiculos.ObtenhaCaminhoes().Count, string.Join(",", ServicoDeVeiculos.ObtenhaCaminhoes().Select(s => s.Placa))
-                    );
+                );
             }
             catch (CodigoJaCadastradoException)
             {
@@ -107,8 +102,8 @@ namespace Problema
     }
 
     /************************************
-     **  NÃO ALTERE O CÓDIGO ABAIXO    ***
-     *************************************/
+    **  NÃO ALTERE O CÓDIGO ABAIXO    ***
+    *************************************/
 
     public class Veiculo
     {

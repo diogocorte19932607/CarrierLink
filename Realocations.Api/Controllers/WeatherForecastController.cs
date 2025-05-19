@@ -38,7 +38,7 @@ namespace Realocations.Api.Controllers
             options.AddArgument("start-maximized");
             options.AddArgument("user-agent=Mozilla/5.0");
 
-            var driverService = ChromeDriverService.CreateDefaultService("C:\\AllFiles\\drivers");
+            var driverService = ChromeDriverService.CreateDefaultService("C:\\driverss");
             driverService.HideCommandPromptWindow = true;
             driverService.Port = 9515;
 
@@ -141,7 +141,7 @@ namespace Realocations.Api.Controllers
             options.AddArgument("start-maximized");
             options.AddArgument("user-agent=Mozilla/5.0");
 
-            var driverService = ChromeDriverService.CreateDefaultService("C:\\AllFiles\\drivers");
+            var driverService = ChromeDriverService.CreateDefaultService("C:\\driverss");
             driverService.HideCommandPromptWindow = true;
             driverService.Port = 9515;
 
@@ -246,7 +246,7 @@ namespace Realocations.Api.Controllers
             options.AddArgument("start-maximized");
             options.AddArgument("user-agent=Mozilla/5.0");
 
-            var driverService = ChromeDriverService.CreateDefaultService("C:\\AllFiles\\drivers");
+            var driverService = ChromeDriverService.CreateDefaultService("C:\\driverss");
             driverService.HideCommandPromptWindow = true;
             driverService.Port = 9515;
 
@@ -289,7 +289,7 @@ namespace Realocations.Api.Controllers
                                 if (!DateTime.TryParse(dataTexto, out var data))
                                     data = DateTime.Now;
 
-                    
+
                                 // Acessar a vaga e tentar se candidatar
                                 var perguntasNaoMapeadas = new List<string>();
 
@@ -384,8 +384,33 @@ namespace Realocations.Api.Controllers
         }
 
 
+
+        [HttpDelete("LimparDados")]
+        public async Task<IActionResult> LimparDados()
+        {
+            try
+            {
+                _context.Vagas.RemoveRange(_context.Vagas);
+                _context.PerguntaPendentes.RemoveRange(_context.PerguntaPendentes);
+                await _context.SaveChangesAsync();
+
+                _logger.LogInformation("Todas as vagas e perguntas pendentes foram removidas com sucesso.");
+
+                return Ok("Dados removidos com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao tentar limpar os dados do banco.");
+                return StatusCode(500, "Erro interno ao tentar limpar os dados.");
+            }
+        }
     }
+
+
+
+
 }
+
 
 
 

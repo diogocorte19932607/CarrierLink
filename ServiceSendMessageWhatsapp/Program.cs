@@ -24,7 +24,7 @@ namespace VagasApp.ConsoleCandidatura
             options.AddArgument("start-maximized");
             options.AddArgument("--disable-blink-features=AutomationControlled");
 
-            var driverService = ChromeDriverService.CreateDefaultService("C:\\AllFiles\\drivers");
+            var driverService = ChromeDriverService.CreateDefaultService("C:\\driverss");
             driverService.HideCommandPromptWindow = false;
             driverService.Port = 9515;
 
