@@ -21,12 +21,11 @@ namespace Realocations.Api.Controllers
             _logger = logger;
             _context = context;
         }
-
         [HttpGet("BuscarVagasLinkedin")]
-        public async Task<ActionResult<List<string>>> BuscarVagasLinkedin(
-            [FromQuery] List<string> palavrasChave,
-            [FromQuery] List<string> paises,
-            [FromQuery] int horas = 1)
+        public async Task<ActionResult<List<Vaga>>> BuscarVagasLinkedin(
+    [FromQuery] List<string> palavrasChave,
+    [FromQuery] List<string> paises,
+    [FromQuery] int horas = 1)
         {
             if (horas <= 0 || horas > 24)
                 return BadRequest("O parâmetro 'horas' deve estar entre 1 e 24.");
@@ -70,7 +69,6 @@ namespace Realocations.Api.Controllers
 
                                 string candidaturaSimplificada = vaga.Text.ToLower().Contains("candidatura simplificada") ? "Sim" : "Não";
 
-                                // 📍 Verifica modelo da vaga
                                 string modelo = "Presencial";
                                 var localLower = local.ToLower();
                                 if (localLower.Contains("remoto") || localLower.Contains("remote"))
@@ -78,17 +76,8 @@ namespace Realocations.Api.Controllers
                                 else if (localLower.Contains("híbrido") || localLower.Contains("hybrid"))
                                     modelo = "Híbrido";
 
-                                //// ❌ Ignora vagas presenciais
-                                //if (modelo == "Presencial")
-                                //    continue;
-
-                                // 🗓️ Parse da data
                                 if (!DateTime.TryParse(dataTexto, out var data))
                                     data = DateTime.Now;
-
-                                //// 🔁 Evita duplicatas
-                                //bool jaExiste = await _context.Vagas.AnyAsync(v => v.Link == link);
-                                //if (jaExiste) continue;
 
                                 var vagaDb = new Vaga
                                 {
@@ -120,22 +109,22 @@ namespace Realocations.Api.Controllers
                 }
             }
 
-            return Ok(logs);
+            return Ok(await _context.Vagas.ToListAsync());
         }
 
 
 
-        // WeatherForecastController.cs (somente busca e grava vagas)
+
+
         [HttpGet("BuscarVagasLinkedinMetodoNovo")]
-        public async Task<ActionResult<List<string>>> BuscarVagasLinkedinMetodoNovo(
-            [FromQuery] List<string> palavrasChave,
-            [FromQuery] List<string> paises,
-            [FromQuery] int horas = 24)
+        public async Task<ActionResult<List<Vaga>>> BuscarVagasLinkedinMetodoNovo(
+    [FromQuery] List<string> palavrasChave,
+    [FromQuery] List<string> paises,
+    [FromQuery] int horas = 24)
         {
             if (horas <= 0 || horas > 24)
                 return BadRequest("O parâmetro 'horas' deve estar entre 1 e 24.");
 
-            var logs = new List<string>();
             var options = new ChromeOptions();
             options.AddArgument("--headless");
             options.AddArgument("start-maximized");
@@ -197,8 +186,6 @@ namespace Realocations.Api.Controllers
                                     Link = link,
                                     Aplicada = false
                                 });
-
-                                logs.Add($"✅ {titulo} | {empresa} | {local}");
                             }
                             catch (Exception exItem)
                             {
@@ -215,8 +202,11 @@ namespace Realocations.Api.Controllers
                 }
             }
 
-            return Ok(logs);
+            // ✅ Retorna todos os dados da tabela
+            return Ok(await _context.Vagas.ToListAsync());
         }
+
+
 
 
 
@@ -410,12 +400,3 @@ namespace Realocations.Api.Controllers
 
 
 }
-
-
-
-
-
-
-
-
-
